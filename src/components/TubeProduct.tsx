@@ -19,36 +19,16 @@ export function TubeProduct({
 
   const wordMap: Record<1 | 2 | 3, string> = { 1: "one", 2: "two", 3: "three" };
 
-  const widthMap = { sm: 68, md: 88, lg: 108, xl: 128 };
+  const widthMap = { sm: 60, md: 78, lg: 96, xl: 114 };
   const w = widthMap[size];
-  const h = Math.round(w * 3.7);
-  const uid = `t${step}`;
+  const h = Math.round(w * 3.2);
+  const uid = `b${step}`;
 
   const handleClick = () => {
     if (!interactive) return;
     setIsWiggling(true);
     setTimeout(() => setIsWiggling(false), 550);
   };
-
-  /*
-    ViewBox: 0 0 100 370
-
-    Layout top → bottom:
-      Dome top:   y ≈ 30–80   (smooth rounded shoulder + tip)
-      Body:       y = 78–312  (tall cylindrical tube)
-      Base cap:   y = 310–348 (slightly wider flat cap)
-      Shadow:     y ≈ 362
-  */
-
-  // Body + dome combined silhouette path
-  const bodyPath = `
-    M 21 312
-    L 21 88
-    C 21 56, 32 36, 50 34
-    C 68 36, 79 56, 79 88
-    L 79 312
-    Z
-  `;
 
   return (
     <div
@@ -61,161 +41,155 @@ export function TubeProduct({
       } ${isWiggling ? "animate-physical-wiggle" : ""} ${className}`}
     >
       <svg
-        viewBox="0 0 100 370"
+        viewBox="0 0 80 260"
         width={w}
         height={h}
         style={{ overflow: "visible" }}
         aria-label={`Step ${step}: ${wordMap[step]}`}
       >
         <defs>
-          {/* ── Matte body: subtle left→right cylinder gradient ── */}
-          <linearGradient id={`${uid}-g-body`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="#4a72c8" />
-            <stop offset="8%"   stopColor="#3060bc" />
-            <stop offset="22%"  stopColor="#2252b0" />
-            <stop offset="45%"  stopColor="#1c48aa" />
-            <stop offset="72%"  stopColor="#163ca0" />
-            <stop offset="100%" stopColor="#0e2878" />
+          {/* Left-to-right cylinder shading */}
+          <linearGradient id={`${uid}-body`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stopColor="#5878d0" />
+            <stop offset="8%"   stopColor="#3a60be" />
+            <stop offset="25%"  stopColor="#2550b4" />
+            <stop offset="50%"  stopColor="#1e48ae" />
+            <stop offset="78%"  stopColor="#153898" />
+            <stop offset="100%" stopColor="#0c2470" />
           </linearGradient>
 
-          {/* ── Soft matte sheen: diffuse, not specular ── */}
-          <linearGradient id={`${uid}-g-sheen`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="white" stopOpacity="0.12" />
-            <stop offset="30%"  stopColor="white" stopOpacity="0.04" />
-            <stop offset="65%"  stopColor="black" stopOpacity="0.00" />
+          {/* Soft matte sheen */}
+          <linearGradient id={`${uid}-sheen`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stopColor="white" stopOpacity="0.14" />
+            <stop offset="28%"  stopColor="white" stopOpacity="0.04" />
             <stop offset="100%" stopColor="black" stopOpacity="0.06" />
           </linearGradient>
 
-          {/* ── Top AO: darkens just under dome ── */}
-          <linearGradient id={`${uid}-g-topao`} x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%"   stopColor="black" stopOpacity="0.14" />
+          {/* Top cap gradient */}
+          <linearGradient id={`${uid}-top`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stopColor="#4068c8" />
+            <stop offset="40%"  stopColor="#1e42a8" />
+            <stop offset="100%" stopColor="#0c2268" />
+          </linearGradient>
+
+          {/* Bottom cap gradient */}
+          <linearGradient id={`${uid}-bot`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stopColor="#3860bc" />
+            <stop offset="40%"  stopColor="#1a3ea0" />
+            <stop offset="100%" stopColor="#0a1e60" />
+          </linearGradient>
+
+          {/* Top AO */}
+          <linearGradient id={`${uid}-topao`} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%"   stopColor="black" stopOpacity="0.18" />
             <stop offset="100%" stopColor="black" stopOpacity="0.00" />
           </linearGradient>
 
-          {/* ── Bottom AO: darkens just above base cap ── */}
-          <linearGradient id={`${uid}-g-botao`} x1="0%" y1="0%" x2="0%" y2="100%">
+          {/* Bottom AO */}
+          <linearGradient id={`${uid}-botao`} x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%"   stopColor="black" stopOpacity="0.00" />
             <stop offset="100%" stopColor="black" stopOpacity="0.20" />
           </linearGradient>
 
-          {/* ── Base cap gradient ── */}
-          <linearGradient id={`${uid}-g-cap`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="#3a62b8" />
-            <stop offset="35%"  stopColor="#1e44a8" />
-            <stop offset="100%" stopColor="#0e2268" />
-          </linearGradient>
-
-          {/* ── Base cap vertical: top-lit ── */}
-          <linearGradient id={`${uid}-g-capv`} x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%"   stopColor="white"  stopOpacity="0.08" />
-            <stop offset="40%"  stopColor="white"  stopOpacity="0.00" />
-            <stop offset="100%" stopColor="black"  stopOpacity="0.22" />
-          </linearGradient>
-
-          {/* ── Clip path: body silhouette ── */}
           <clipPath id={`${uid}-clip`}>
-            <path d={bodyPath} />
+            <rect x="10" y="28" width="60" height="196" rx="0" />
           </clipPath>
 
-          {/* ── Drop shadow ── */}
-          <filter id={`${uid}-f-shadow`} x="-40%" y="-5%" width="180%" height="125%">
-            <feDropShadow dx="3" dy="9" stdDeviation="6"
-              floodColor="#00081a" floodOpacity="0.24" />
-          </filter>
-
-          {/* ── Cap shadow ── */}
-          <filter id={`${uid}-f-capshadow`} x="-40%" y="-10%" width="180%" height="140%">
-            <feDropShadow dx="3" dy="8" stdDeviation="5"
-              floodColor="#00081a" floodOpacity="0.20" />
+          <filter id={`${uid}-shadow`} x="-40%" y="-5%" width="180%" height="120%">
+            <feDropShadow dx="3" dy="8" stdDeviation="6"
+              floodColor="#00060f" floodOpacity="0.22" />
           </filter>
         </defs>
 
-        {/* ═══ GROUND SHADOW ═══ */}
-        <ellipse cx="51" cy="362" rx="28" ry="5"
-          fill="rgba(0,8,28,0.18)"
+        {/* Ground shadow */}
+        <ellipse cx="41" cy="254" rx="26" ry="4"
+          fill="rgba(0,6,20,0.18)"
           style={{ filter: "blur(4px)" }}
         />
 
-        {/* ═══ BASE CAP ═══ */}
-        <rect x="14" y="310" width="72" height="36" rx="8" ry="8"
-          fill={`url(#${uid}-g-cap)`}
-          filter={`url(#${uid}-f-capshadow)`}
-        />
-        {/* Cap sheen top-to-bottom */}
-        <rect x="14" y="310" width="72" height="36" rx="8"
-          fill={`url(#${uid}-g-capv)`}
-        />
-        {/* Cap separation groove */}
-        <line x1="14" y1="313" x2="86" y2="313"
-          stroke="rgba(0,0,0,0.18)" strokeWidth="1.5"
-        />
-        {/* Cap left edge highlight */}
-        <rect x="14" y="313" width="2" height="30"
-          fill="white" opacity="0.10" rx="1"
+        {/* ── BOTTLE BODY ── */}
+        <rect x="10" y="28" width="60" height="196" rx="0"
+          fill={`url(#${uid}-body)`}
+          filter={`url(#${uid}-shadow)`}
         />
 
-        {/* ═══ MAIN TUBE BODY ═══ */}
-        <path
-          d={bodyPath}
-          fill={`url(#${uid}-g-body)`}
-          filter={`url(#${uid}-f-shadow)`}
+        {/* Sheen */}
+        <rect x="10" y="28" width="60" height="196" rx="0"
+          fill={`url(#${uid}-sheen)`}
         />
 
-        {/* Matte sheen overlay */}
-        <path d={bodyPath} fill={`url(#${uid}-g-sheen)`} />
-
-        {/* Left edge rim light */}
-        <rect x="21" y="88" width="2.5" height="224"
+        {/* Left rim catch-light */}
+        <rect x="10" y="30" width="2.5" height="192"
           fill="white" opacity="0.16"
           clipPath={`url(#${uid}-clip)`}
         />
 
-        {/* Top AO (under dome tip, into body) */}
-        <rect x="21" y="78" width="58" height="40"
-          fill={`url(#${uid}-g-topao)`}
+        {/* Top AO */}
+        <rect x="10" y="28" width="60" height="30"
+          fill={`url(#${uid}-topao)`}
           clipPath={`url(#${uid}-clip)`}
         />
 
-        {/* Bottom AO (above cap junction) */}
-        <rect x="21" y="282" width="58" height="32"
-          fill={`url(#${uid}-g-botao)`}
+        {/* Bottom AO */}
+        <rect x="10" y="194" width="60" height="30"
+          fill={`url(#${uid}-botao)`}
           clipPath={`url(#${uid}-clip)`}
         />
 
-        {/* ═══ LABEL ═══ */}
+        {/* ── TOP CAP ── */}
+        <rect x="10" y="14" width="60" height="18" rx="6" ry="6"
+          fill={`url(#${uid}-top)`}
+        />
+        <rect x="10" y="14" width="60" height="6" rx="6"
+          fill="white" opacity="0.08"
+        />
+        {/* Cap-body separation line */}
+        <line x1="10" y1="29" x2="70" y2="29"
+          stroke="rgba(0,0,0,0.20)" strokeWidth="1.2"
+        />
 
-        {/* Label recessed shadow */}
-        <rect x="21.6" y="153.6" width="56.8" height="120" rx="1" ry="1"
+        {/* ── BOTTOM CAP ── */}
+        <rect x="10" y="224" width="60" height="18" rx="6" ry="6"
+          fill={`url(#${uid}-bot)`}
+        />
+        {/* Cap-body separation line */}
+        <line x1="10" y1="225" x2="70" y2="225"
+          stroke="rgba(0,0,0,0.20)" strokeWidth="1.2"
+        />
+        <rect x="10" y="234" width="60" height="8" rx="6"
           fill="rgba(0,0,0,0.14)"
         />
 
-        {/* Label face — clean white, like The Ordinary */}
-        <rect x="21" y="153" width="57" height="120" rx="1" ry="1"
-          fill="#F9F9F7"
+        {/* ── LABEL ── */}
+        {/* Shadow */}
+        <rect x="10.6" y="95.6" width="59.8" height="100" rx="0"
+          fill="rgba(0,0,0,0.14)"
         />
-
-        {/* Label edge curl shadows */}
-        <rect x="21" y="153" width="4.5" height="120"
-          fill="rgba(0,0,0,0.06)" rx="0.5"
+        {/* Face */}
+        <rect x="10" y="95" width="60" height="100" rx="0"
+          fill="#F8F8F6"
         />
-        <rect x="73.5" y="153" width="4.5" height="120"
-          fill="rgba(0,0,0,0.06)" rx="0.5"
-        />
-
-        {/* Label top/bottom micro-shadow lines */}
-        <rect x="21" y="153" width="57" height="3.5"
+        {/* Edge curl shadows */}
+        <rect x="10" y="95" width="4" height="100"
           fill="rgba(0,0,0,0.06)"
         />
-        <rect x="21" y="269.5" width="57" height="3.5"
+        <rect x="66" y="95" width="4" height="100"
           fill="rgba(0,0,0,0.06)"
         />
+        {/* Top/bottom micro lines */}
+        <rect x="10" y="95" width="60" height="3"
+          fill="rgba(0,0,0,0.07)"
+        />
+        <rect x="10" y="192" width="60" height="3"
+          fill="rgba(0,0,0,0.07)"
+        />
 
-        {/* ═══ WORD — only text on the bottle ═══ */}
+        {/* ── WORD ── */}
         <text
-          x="49.5"
-          y="214"
+          x="40"
+          y="146"
           fontFamily='"Bricolage Grotesque", "Georgia", serif'
-          fontSize="17"
+          fontSize="15"
           fontStyle="italic"
           fontWeight="900"
           fill="#C02E29"
