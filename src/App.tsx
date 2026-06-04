@@ -167,19 +167,14 @@ export default function App() {
           
           {/* Left Text Column: Elegant Display Typeface */}
           <div className="lg:col-span-6 space-y-10 text-left">
-            <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#E63931] font-bold block">
-              Sydney Originated • Free Delivery
-            </span>
-
             {/* Title - Bold, rounded, bigger display typography */}
-            <h1 className="font-serif italic font-black text-6xl sm:text-8xl tracking-tight text-[#334B89] leading-[0.95] uppercase">
-              Skincare. <br />
-              <span className="text-[#E63931]">Refinement</span> <br />
-              without the fuss.
+            <h1 className="font-serif italic font-black text-6xl sm:text-8xl tracking-tight text-[#334B89] leading-[0.95] lowercase">
+              skincare doesn't <br />
+              need to be <span className="text-[#E63931]">hard.</span>
             </h1>
 
-            <p className="font-sans text-base sm:text-lg text-[#334B89]/90 max-w-lg font-bold leading-relaxed">
-              No endless layers or marketing scams. A bold, minimalist botanical routine designed around Steps One, Two, and Three. Applied in under sixty seconds.
+            <p className="font-sans text-sm text-[#334B89]/90 font-bold leading-relaxed">
+              it should be as easy as one two three.
             </p>
 
             {/* Premium retro CTA triggers */}
@@ -192,7 +187,7 @@ export default function App() {
                 Acquire The Set — $75
                 <ArrowRight className="w-4 h-4 text-white" />
               </button>
-              
+
               <button
                 id="hero-secondary-btn"
                 onClick={() => scrollToAnchor("individual-product-grid")}
@@ -200,18 +195,6 @@ export default function App() {
               >
                 Refill Singles
               </button>
-            </div>
-
-            {/* Trust highlights */}
-            <div className="pt-6 flex flex-wrap items-center gap-5 text-[10px] font-mono uppercase tracking-widest text-[#334B89] font-black">
-              <div className="flex items-center gap-1.5 text-[#E63931]">
-                <Bookmark className="w-4 h-4 text-current animate-none" />
-                <span>CO2 Neutral Courier</span>
-              </div>
-              <div>•</div>
-              <div><span>Vegan Formulas</span></div>
-              <div>•</div>
-              <div><span>Made in Australia</span></div>
             </div>
           </div>
 

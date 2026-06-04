@@ -24,14 +24,13 @@ export function IndividualGrid({ onAddToBag }: IndividualGridProps) {
       tagline: "The Daily Wash",
       volume: "150ml",
       price: 26,
-      description: "A gentle daily wash designed to lift residue, pollution, and excess skin oils without ever drying or tightening your moisture barrier.",
+      description: "Lifts daily residue without stripping. Non-foaming, gentle, done.",
       benefits: [
-        "Lifts stubborn micro-particles & soot",
-        "Fully preserves natural skin pH level",
-        "Silky, non-foaming hydrating emulsion",
-        "Infused with organic botanical extracts"
+        "Lifts daily residue",
+        "Preserves skin pH",
+        "Non-foaming, never tight"
       ],
-      howToUse: "Apply to damp skin. Smoothly massage a pea-sized dollop for 45 seconds. Rinse fully with cool water and pat dry."
+      howToUse: "Massage onto damp skin for 30 seconds. Rinse with cool water."
     },
     {
       id: "exfoliate",
@@ -40,14 +39,13 @@ export function IndividualGrid({ onAddToBag }: IndividualGridProps) {
       tagline: "The Resurfacing Liquid",
       volume: "100ml",
       price: 32,
-      description: "A leave-on liquid exfoliant packed with natural resurfacing acids to sweep away dead skin cells, shrink pores, and soothe dry areas.",
+      description: "A leave-on liquid that clears pores and smooths texture. Use it, don't rinse it.",
       benefits: [
-        "Sweeps dead cellular layers gently",
-        "Refines large, visible pore sizes",
-        "Soothes shaving skin redness & bumps",
-        "Absolutely zero harsh microbead abrasive"
+        "Clears pores",
+        "Smooths rough texture",
+        "No grit, no scrubbing"
       ],
-      howToUse: "Squeeze 3-4 drops directly onto dry fingers and pat onto dry face. Do not wash off. Use 2-3 nights per week."
+      howToUse: "Pat 3–4 drops onto dry skin. Leave it. Don't rinse."
     },
     {
       id: "moisturise",
@@ -56,14 +54,13 @@ export function IndividualGrid({ onAddToBag }: IndividualGridProps) {
       tagline: "The Velvet Barrier",
       volume: "75ml",
       price: 29,
-      description: "A rapid-absorbing, whipped hydrator that shields and locks in deep moisture, leaving a perfectly clean, velvety, zero-grease surface.",
+      description: "Absorbs instantly. Zero grease. Locks in everything the first two steps did.",
       benefits: [
-        "Ultra-rapid 20-second skin absorption",
-        "Zero shiny film or heavy greasy coating",
-        "Powerful organic nutrient protection",
-        "Counters dry air and environmental stress"
+        "Absorbs in seconds",
+        "Zero grease, zero shine",
+        "Seals the barrier"
       ],
-      howToUse: "Squeeze a small bean-sized drop onto fingers. Smoothly massage across cheeks and forehead. Use morning and night."
+      howToUse: "One small squeeze. Massage in. Done."
     }
   ];
 
@@ -84,11 +81,11 @@ export function IndividualGrid({ onAddToBag }: IndividualGridProps) {
           <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#E63931] font-bold block">
             REFILL SINGLES
           </span>
-          <h2 className="font-serif italic text-5xl md:text-6xl text-[#334B89] font-black leading-tight uppercase">
-            Need a single refill?
+          <h2 className="font-serif italic text-5xl md:text-6xl text-[#334B89] font-black leading-tight lowercase">
+            need a refill?
           </h2>
           <p className="font-sans text-lg text-[#334B89] font-semibold max-w-md leading-relaxed">
-            Order single replacement physical items when a step runs low. Your botanical routine remains complete and streamlined.
+            pick up whichever step you're running low on.
           </p>
         </div>
 
