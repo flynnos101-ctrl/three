@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:ital,opsz,wght@0,12..96,300..800;1,12..96,300..800&family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Bricolage Grotesque", sans-serif;
+  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-sans: "Outfit", "Inter", sans-serif;
+  --font-mono: "Space Mono", "Courier New", monospace;
+  
+  --color-brand-blue: #334B89;
+  --color-brand-red: #E63931;
+  --color-brand-yellow: #F2B824;
+  --color-brand-beige: #FAF2DB; /* Soft masterly craft light warm butter yellow from the palette */
+}
+
+/* Base resets & bold rounded minimalist retro look */
+html, body {
+  font-family: "Outfit", "Inter", sans-serif;
+  scroll-behavior: smooth;
+  background-color: #FAF2DB; /* The lighter coloured yellow/butter tone */
+  color: #334B89; /* The deep vibrant royal blue */
+}
+
+/* Minimalist thick-bordered card aesthetic matching retro art style */
+.retro-border {
+  border: 2px solid #334B89;
+}
+
+.retro-shadow {
+  box-shadow: 4px 4px 0px 0px #334B89;
+}
+
+.retro-shadow-red {
+  box-shadow: 4px 4px 0px 0px #E63931;
+}
+
+.retro-shadow-yellow {
+  box-shadow: 4px 4px 0px 0px #F2B824;
+}
+
+.smooth-transition {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Elegant scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF2DB;
+}
+::-webkit-scrollbar-thumb {
+  background: #334B89;
+  border: 2px solid #FAF2DB;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E63931;
+}
+
+/* Wiggle animation for premium physical interaction */
+@keyframes physical-wiggle {
+  0% { transform: scale(1) rotate(0deg); }
+  15% { transform: scale(1.08) rotate(-4deg) translateY(-12px); }
+  35% { transform: scale(1.08) rotate(3deg) translateY(-12px); }
+  55% { transform: scale(1.08) rotate(-2deg) translateY(-12px); }
+  75% { transform: scale(1.08) rotate(1deg) translateY(-12px); }
+  100% { transform: scale(1.1) rotate(0deg) translateY(-12px); }
+}
+
+.animate-physical-wiggle {
+  animation: physical-wiggle 0.55s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
