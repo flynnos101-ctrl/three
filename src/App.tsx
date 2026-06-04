@@ -105,9 +105,9 @@ export default function App() {
       <PromoBanner />
 
       {/* CORE NAVIGATION BAR */}
-      <nav 
-        id="navbar" 
-        className="w-full py-6 px-6 md:px-16 flex justify-between items-center bg-[#FAF2DB]/95 sticky top-0 z-40 backdrop-blur-md border-b-4 border-[#334B89] transition-all duration-300"
+      <nav
+        id="navbar"
+        className="w-full py-6 px-4 md:px-10 flex justify-between items-center bg-[#FAF2DB]/95 sticky top-0 z-40 backdrop-blur-md border-b-4 border-[#334B89] transition-all duration-300"
       >
         <div
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
@@ -161,9 +161,9 @@ export default function App() {
       </nav>
 
       {/* LUXURY EDITORIAL HERO SECTION */}
-      <header id="hero" className="w-full pt-16 pb-24 md:py-32 px-6 md:px-16 bg-[#FAF2DB] text-[#334B89] relative overflow-hidden border-b-4 border-[#334B89]">
+      <header id="hero" className="w-full pt-16 pb-24 md:py-32 px-4 md:px-10 bg-[#FAF2DB] text-[#334B89] relative overflow-hidden border-b-4 border-[#334B89]">
 
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           
           {/* Left Text Column: Elegant Display Typeface */}
           <div className="lg:col-span-6 space-y-10 text-left">
@@ -202,20 +202,11 @@ export default function App() {
           <div className="lg:col-span-6 flex justify-center items-center">
             <div className="relative w-full max-w-lg bg-[#FFFDEC] border-4 border-[#334B89] rounded-[44px] p-8 md:p-12 flex flex-col justify-between overflow-hidden shadow-2xl group">
               
-              <div className="w-full flex justify-between items-baseline font-mono text-[10px] uppercase font-black text-[#334B89]/70 pb-4">
-                <span>three. skincare</span>
-                <span className="text-[#E63931]">steps 01 • 02 • 03</span>
-              </div>
-
-              {/* Seamless side-by-side array of the three premium bottles */}
-              <div className="flex justify-center items-end gap-5 py-6">
+              {/* Seamless side-by-side array of the three bottles */}
+              <div className="flex justify-center items-end gap-5 py-8">
                 <TubeProduct step={1} label="cleanse" size="sm" interactive={true} className="transition-transform duration-300 hover:scale-110" />
                 <TubeProduct step={2} label="exfoliate" size="sm" interactive={true} className="transition-transform duration-300 hover:scale-110" />
                 <TubeProduct step={3} label="moisturise" size="sm" interactive={true} className="transition-transform duration-300 hover:scale-110" />
-              </div>
-
-              <div className="text-center pt-4 border-t-2 border-[#334B89]/10">
-                <span className="font-mono text-[9px] uppercase tracking-widest text-[#E63931] font-black block">01 / 02 / 03 Entire Treatment Suite</span>
               </div>
             </div>
           </div>
@@ -227,8 +218,8 @@ export default function App() {
       <IntroExplainer onAddToBag={handleAddToBag} />
 
       {/* THE DEFINITIVE BUNDLE SECTION */}
-      <section id="hero-bundle-section" className="bg-[#FAF2DB] text-[#334B89] py-32 px-6 md:px-16 border-b-4 border-[#334B89]">
-        <div className="max-w-6xl mx-auto lg:grid lg:grid-cols-12 lg:gap-16 items-center">
+      <section id="hero-bundle-section" className="bg-[#FAF2DB] text-[#334B89] py-32 px-4 md:px-10 border-b-4 border-[#334B89]">
+        <div className="max-w-7xl mx-auto lg:grid lg:grid-cols-12 lg:gap-16 items-center">
           
           {/* Aesthetic stage display with gold shadow */}
           <div className="lg:col-span-6 flex flex-col justify-between py-16 px-6 bg-[#FFFDEC] rounded-[44px] overflow-hidden mb-12 lg:mb-0 relative min-h-[460px] shadow-2xl border-4 border-[#334B89]">

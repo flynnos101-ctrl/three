@@ -32,8 +32,8 @@ export function IntroExplainer({ onAddToBag: _onAddToBag }: IntroExplainerProps)
   ];
 
   return (
-    <section id="routine-explainer" className="bg-[#FAF2DB] text-[#334B89] py-32 px-6 md:px-16 overflow-hidden border-b-4 border-[#334B89]">
-      <div className="max-w-6xl mx-auto space-y-20">
+    <section id="routine-explainer" className="bg-[#FAF2DB] text-[#334B89] py-32 px-4 md:px-10 overflow-hidden border-b-4 border-[#334B89]">
+      <div className="max-w-7xl mx-auto space-y-20">
 
         {/* EDITORIAL HEADER */}
         <div className="max-w-4xl mx-auto text-center space-y-6">

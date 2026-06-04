@@ -17,8 +17,8 @@ export function WhyThreeManifesto() {
   ];
 
   return (
-    <section id="brand-manifesto" className="bg-[#FAF2DB] text-[#334B89] py-32 px-6 md:px-16 border-b-4 border-[#334B89] overflow-hidden">
-      <div className="max-w-6xl mx-auto">
+    <section id="brand-manifesto" className="bg-[#FAF2DB] text-[#334B89] py-32 px-4 md:px-10 border-b-4 border-[#334B89] overflow-hidden">
+      <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
 
           {/* Left sticky column */}

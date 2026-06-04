@@ -72,3 +72,17 @@ html, body {
   animation: physical-wiggle 0.55s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+/* Infinite horizontal marquee for review cards */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee-scroll 45s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+

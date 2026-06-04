@@ -73,8 +73,8 @@ export function IndividualGrid({ onAddToBag }: IndividualGridProps) {
   };
 
   return (
-    <section id="individual-product-grid" className="bg-[#FAF2DB] text-[#334B89] py-32 px-6 md:px-16 border-b-4 border-[#334B89]">
-      <div className="max-w-6xl mx-auto">
+    <section id="individual-product-grid" className="bg-[#FAF2DB] text-[#334B89] py-32 px-4 md:px-10 border-b-4 border-[#334B89]">
+      <div className="max-w-7xl mx-auto">
         
         {/* Editorial Section Header */}
         <div className="mb-20 space-y-4 max-w-2xl text-center md:text-left">
