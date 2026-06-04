@@ -19,11 +19,10 @@ export function TubeProduct({
 
   const wordMap: Record<1 | 2 | 3, string> = { 1: "one", 2: "two", 3: "three" };
 
-  // Width drives everything; height = width × (380/100)
-  const widthMap = { sm: 62, md: 82, lg: 100, xl: 120 };
+  const widthMap = { sm: 68, md: 88, lg: 108, xl: 128 };
   const w = widthMap[size];
-  const h = Math.round(w * 3.8);
-  const uid = `bottle${step}`;
+  const h = Math.round(w * 3.7);
+  const uid = `t${step}`;
 
   const handleClick = () => {
     if (!interactive) return;
@@ -31,176 +30,192 @@ export function TubeProduct({
     setTimeout(() => setIsWiggling(false), 550);
   };
 
+  /*
+    ViewBox: 0 0 100 370
+
+    Layout top → bottom:
+      Dome top:   y ≈ 30–80   (smooth rounded shoulder + tip)
+      Body:       y = 78–312  (tall cylindrical tube)
+      Base cap:   y = 310–348 (slightly wider flat cap)
+      Shadow:     y ≈ 362
+  */
+
+  // Body + dome combined silhouette path
+  const bodyPath = `
+    M 21 312
+    L 21 88
+    C 21 56, 32 36, 50 34
+    C 68 36, 79 56, 79 88
+    L 79 312
+    Z
+  `;
+
   return (
     <div
       id={`bottle-step-${step}`}
       onClick={handleClick}
       className={`select-none inline-block ${
         interactive
-          ? "hover:scale-[1.07] hover:-translate-y-3 transition-all duration-300 ease-out cursor-pointer"
+          ? "hover:scale-[1.06] hover:-translate-y-3 transition-all duration-300 ease-out cursor-pointer"
           : ""
       } ${isWiggling ? "animate-physical-wiggle" : ""} ${className}`}
     >
-      {/*
-        ViewBox: 0 0 100 380
-        ─────────────────────────────
-        y   0–12   nozzle arm
-        y   4–19   pump head
-        y  18–44   pump shaft
-        y  38–50   collar ring
-        y  44–76   bottle neck
-        y  72–98   shoulder (trapezoid)
-        y  86–342  main body
-        y 340–348  base rim
-        y 370      ground shadow
-      */}
       <svg
-        viewBox="0 0 100 380"
+        viewBox="0 0 100 370"
         width={w}
         height={h}
         style={{ overflow: "visible" }}
         aria-label={`Step ${step}: ${wordMap[step]}`}
       >
         <defs>
-          {/* ── BODY: deep cylinder gradient left→right ── */}
-          <linearGradient id={`${uid}-body`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="#7090d8" />
-            <stop offset="5%"   stopColor="#4a6cbf" />
-            <stop offset="14%"  stopColor="#2c52ae" />
-            <stop offset="32%"  stopColor="#1e3f96" />
-            <stop offset="55%"  stopColor="#18338a" />
-            <stop offset="78%"  stopColor="#102268" />
-            <stop offset="100%" stopColor="#071440" />
+          {/* ── Matte body: subtle left→right cylinder gradient ── */}
+          <linearGradient id={`${uid}-g-body`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stopColor="#4a72c8" />
+            <stop offset="8%"   stopColor="#3060bc" />
+            <stop offset="22%"  stopColor="#2252b0" />
+            <stop offset="45%"  stopColor="#1c48aa" />
+            <stop offset="72%"  stopColor="#163ca0" />
+            <stop offset="100%" stopColor="#0e2878" />
           </linearGradient>
 
-          {/* ── BODY SPECULAR: narrow bright band ~22% from left ── */}
-          <linearGradient id={`${uid}-sheen`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="white" stopOpacity="0.00" />
-            <stop offset="17%"  stopColor="white" stopOpacity="0.00" />
-            <stop offset="22%"  stopColor="white" stopOpacity="0.18" />
-            <stop offset="27%"  stopColor="white" stopOpacity="0.00" />
-            <stop offset="100%" stopColor="white" stopOpacity="0.00" />
+          {/* ── Soft matte sheen: diffuse, not specular ── */}
+          <linearGradient id={`${uid}-g-sheen`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stopColor="white" stopOpacity="0.12" />
+            <stop offset="30%"  stopColor="white" stopOpacity="0.04" />
+            <stop offset="65%"  stopColor="black" stopOpacity="0.00" />
+            <stop offset="100%" stopColor="black" stopOpacity="0.06" />
           </linearGradient>
 
-          {/* ── BODY TOP FADE: AO at top under collar ── */}
-          <linearGradient id={`${uid}-topfade`} x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%"   stopColor="black" stopOpacity="0.28" />
+          {/* ── Top AO: darkens just under dome ── */}
+          <linearGradient id={`${uid}-g-topao`} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%"   stopColor="black" stopOpacity="0.14" />
             <stop offset="100%" stopColor="black" stopOpacity="0.00" />
           </linearGradient>
 
-          {/* ── BODY BOTTOM FADE: AO at base ── */}
-          <linearGradient id={`${uid}-botfade`} x1="0%" y1="0%" x2="0%" y2="100%">
+          {/* ── Bottom AO: darkens just above base cap ── */}
+          <linearGradient id={`${uid}-g-botao`} x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%"   stopColor="black" stopOpacity="0.00" />
-            <stop offset="100%" stopColor="black" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="black" stopOpacity="0.20" />
           </linearGradient>
 
-          {/* ── NECK gradient ── */}
-          <linearGradient id={`${uid}-neck`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="#4060b5" />
-            <stop offset="18%"  stopColor="#2444a0" />
-            <stop offset="58%"  stopColor="#162e82" />
-            <stop offset="100%" stopColor="#0b1a52" />
+          {/* ── Base cap gradient ── */}
+          <linearGradient id={`${uid}-g-cap`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stopColor="#3a62b8" />
+            <stop offset="35%"  stopColor="#1e44a8" />
+            <stop offset="100%" stopColor="#0e2268" />
           </linearGradient>
 
-          {/* ── CHROME vertical (top-lit) ── */}
-          <linearGradient id={`${uid}-chrome-v`} x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%"   stopColor="#f6f8fa" />
-            <stop offset="18%"  stopColor="#dde5ed" />
-            <stop offset="48%"  stopColor="#b0bdc9" />
-            <stop offset="78%"  stopColor="#8a98a6" />
-            <stop offset="100%" stopColor="#6c7c8c" />
+          {/* ── Base cap vertical: top-lit ── */}
+          <linearGradient id={`${uid}-g-capv`} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%"   stopColor="white"  stopOpacity="0.08" />
+            <stop offset="40%"  stopColor="white"  stopOpacity="0.00" />
+            <stop offset="100%" stopColor="black"  stopOpacity="0.22" />
           </linearGradient>
 
-          {/* ── CHROME horizontal (left-lit) ── */}
-          <linearGradient id={`${uid}-chrome-h`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="#dceaf4" />
-            <stop offset="20%"  stopColor="#eef3f8" />
-            <stop offset="56%"  stopColor="#c8d4de" />
-            <stop offset="100%" stopColor="#8c9aaa" />
-          </linearGradient>
-
-          {/* ── LABEL: warm cream with curvature shading ── */}
-          <linearGradient id={`${uid}-label`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="#e2dcd0" />
-            <stop offset="12%"  stopColor="#f7f3eb" />
-            <stop offset="48%"  stopColor="#fdfbf6" />
-            <stop offset="88%"  stopColor="#f0ebe2" />
-            <stop offset="100%" stopColor="#dfd8cb" />
-          </linearGradient>
-
-          {/* ── Clip: body shape ── */}
+          {/* ── Clip path: body silhouette ── */}
           <clipPath id={`${uid}-clip`}>
-            <rect x="21" y="86" width="58" height="258" rx="12" ry="12" />
+            <path d={bodyPath} />
           </clipPath>
 
-          {/* ── Drop shadow filter ── */}
-          <filter id={`${uid}-shadow`} x="-45%" y="-8%" width="190%" height="130%">
-            <feDropShadow dx="4" dy="10" stdDeviation="7"
-              floodColor="#000c28" floodOpacity="0.22" />
+          {/* ── Drop shadow ── */}
+          <filter id={`${uid}-f-shadow`} x="-40%" y="-5%" width="180%" height="125%">
+            <feDropShadow dx="3" dy="9" stdDeviation="6"
+              floodColor="#00081a" floodOpacity="0.24" />
+          </filter>
+
+          {/* ── Cap shadow ── */}
+          <filter id={`${uid}-f-capshadow`} x="-40%" y="-10%" width="180%" height="140%">
+            <feDropShadow dx="3" dy="8" stdDeviation="5"
+              floodColor="#00081a" floodOpacity="0.20" />
           </filter>
         </defs>
 
-        {/* ══════════ GROUND SHADOW ══════════ */}
-        <ellipse cx="52" cy="372" rx="26" ry="5"
-          fill="rgba(0,10,40,0.18)"
+        {/* ═══ GROUND SHADOW ═══ */}
+        <ellipse cx="51" cy="362" rx="28" ry="5"
+          fill="rgba(0,8,28,0.18)"
           style={{ filter: "blur(4px)" }}
         />
 
-        {/* ══════════ MAIN BODY ══════════ */}
-        <rect x="21" y="86" width="58" height="258" rx="12" ry="12"
-          fill={`url(#${uid}-body)`}
-          filter={`url(#${uid}-shadow)`}
+        {/* ═══ BASE CAP ═══ */}
+        <rect x="14" y="310" width="72" height="36" rx="8" ry="8"
+          fill={`url(#${uid}-g-cap)`}
+          filter={`url(#${uid}-f-capshadow)`}
         />
-        {/* Specular sheen overlay */}
-        <rect x="21" y="86" width="58" height="258" rx="12" ry="12"
-          fill={`url(#${uid}-sheen)`}
+        {/* Cap sheen top-to-bottom */}
+        <rect x="14" y="310" width="72" height="36" rx="8"
+          fill={`url(#${uid}-g-capv)`}
         />
-        {/* Left rim catch-light — thin bright sliver */}
-        <rect x="21" y="92" width="3" height="246" rx="1.5"
-          fill="white" opacity="0.22"
-          clipPath={`url(#${uid}-clip)`}
+        {/* Cap separation groove */}
+        <line x1="14" y1="313" x2="86" y2="313"
+          stroke="rgba(0,0,0,0.18)" strokeWidth="1.5"
         />
-        {/* Top AO darkening under collar */}
-        <rect x="21" y="86" width="58" height="32"
-          fill={`url(#${uid}-topfade)`}
-          clipPath={`url(#${uid}-clip)`}
+        {/* Cap left edge highlight */}
+        <rect x="14" y="313" width="2" height="30"
+          fill="white" opacity="0.10" rx="1"
         />
-        {/* Bottom AO darkening */}
-        <rect x="21" y="316" width="58" height="28"
-          fill={`url(#${uid}-botfade)`}
+
+        {/* ═══ MAIN TUBE BODY ═══ */}
+        <path
+          d={bodyPath}
+          fill={`url(#${uid}-g-body)`}
+          filter={`url(#${uid}-f-shadow)`}
+        />
+
+        {/* Matte sheen overlay */}
+        <path d={bodyPath} fill={`url(#${uid}-g-sheen)`} />
+
+        {/* Left edge rim light */}
+        <rect x="21" y="88" width="2.5" height="224"
+          fill="white" opacity="0.16"
           clipPath={`url(#${uid}-clip)`}
         />
 
-        {/* ══════════ LABEL ══════════ */}
-        {/* Shadow behind label (recessed) */}
-        <rect x="25.5" y="167.5" width="49" height="108" rx="2" ry="2"
+        {/* Top AO (under dome tip, into body) */}
+        <rect x="21" y="78" width="58" height="40"
+          fill={`url(#${uid}-g-topao)`}
+          clipPath={`url(#${uid}-clip)`}
+        />
+
+        {/* Bottom AO (above cap junction) */}
+        <rect x="21" y="282" width="58" height="32"
+          fill={`url(#${uid}-g-botao)`}
+          clipPath={`url(#${uid}-clip)`}
+        />
+
+        {/* ═══ LABEL ═══ */}
+
+        {/* Label recessed shadow */}
+        <rect x="21.6" y="153.6" width="56.8" height="120" rx="1" ry="1"
           fill="rgba(0,0,0,0.14)"
         />
-        {/* Label fill */}
-        <rect x="25" y="167" width="49" height="108" rx="2" ry="2"
-          fill={`url(#${uid}-label)`}
-        />
-        {/* Label left/right curl shadows */}
-        <rect x="25" y="167" width="5" height="108" rx="1"
-          fill="rgba(0,0,0,0.07)"
-        />
-        <rect x="69" y="167" width="5" height="108" rx="1"
-          fill="rgba(0,0,0,0.07)"
-        />
-        {/* Label top/bottom micro-shadows */}
-        <rect x="25" y="167" width="49" height="4"
-          fill="rgba(0,0,0,0.05)"
-        />
-        <rect x="25" y="271" width="49" height="4"
-          fill="rgba(0,0,0,0.05)"
+
+        {/* Label face — clean white, like The Ordinary */}
+        <rect x="21" y="153" width="57" height="120" rx="1" ry="1"
+          fill="#F9F9F7"
         />
 
-        {/* NUMBER WORD — only text on the bottle */}
+        {/* Label edge curl shadows */}
+        <rect x="21" y="153" width="4.5" height="120"
+          fill="rgba(0,0,0,0.06)" rx="0.5"
+        />
+        <rect x="73.5" y="153" width="4.5" height="120"
+          fill="rgba(0,0,0,0.06)" rx="0.5"
+        />
+
+        {/* Label top/bottom micro-shadow lines */}
+        <rect x="21" y="153" width="57" height="3.5"
+          fill="rgba(0,0,0,0.06)"
+        />
+        <rect x="21" y="269.5" width="57" height="3.5"
+          fill="rgba(0,0,0,0.06)"
+        />
+
+        {/* ═══ WORD — only text on the bottle ═══ */}
         <text
           x="49.5"
-          y="222"
-          fontFamily='"Bricolage Grotesque", "Georgia", "Times New Roman", serif'
-          fontSize="16"
+          y="214"
+          fontFamily='"Bricolage Grotesque", "Georgia", serif'
+          fontSize="17"
           fontStyle="italic"
           fontWeight="900"
           fill="#C02E29"
@@ -209,106 +224,6 @@ export function TubeProduct({
         >
           {wordMap[step]}
         </text>
-
-        {/* ══════════ SHOULDER (trapezoid) ══════════ */}
-        <path d="M 21 98 L 79 98 L 69 72 L 31 72 Z"
-          fill={`url(#${uid}-neck)`}
-        />
-        {/* Shoulder left highlight */}
-        <path d="M 21 98 L 31 72 L 36 72 L 25 98 Z"
-          fill="white" opacity="0.09"
-        />
-        {/* Shoulder bottom edge AO */}
-        <rect x="21" y="92" width="58" height="8"
-          fill="rgba(0,0,0,0.14)"
-          clipPath={`url(#${uid}-clip)`}
-        />
-
-        {/* ══════════ NECK ══════════ */}
-        <rect x="31" y="46" width="38" height="28" rx="5" ry="5"
-          fill={`url(#${uid}-neck)`}
-        />
-        {/* Neck left highlight */}
-        <rect x="31" y="48" width="9" height="24"
-          fill="white" opacity="0.10" rx="3"
-        />
-        {/* Neck right shadow */}
-        <rect x="62" y="48" width="7" height="24"
-          fill="rgba(0,0,0,0.14)" rx="3"
-        />
-
-        {/* ══════════ COLLAR RING ══════════ */}
-        <rect x="27" y="38" width="46" height="12" rx="6" ry="6"
-          fill={`url(#${uid}-neck)`}
-        />
-        <rect x="27" y="38" width="46" height="5" rx="6"
-          fill="white" opacity="0.08"
-        />
-
-        {/* ══════════ PUMP SHAFT ══════════ */}
-        <rect x="37" y="14" width="26" height="28" rx="5" ry="5"
-          fill={`url(#${uid}-chrome-h)`}
-        />
-        {/* Shaft left highlight */}
-        <rect x="37" y="14" width="7" height="28"
-          fill="white" opacity="0.22" rx="4"
-        />
-        {/* Shaft right shadow */}
-        <rect x="56" y="14" width="7" height="28"
-          fill="rgba(0,0,0,0.14)" rx="4"
-        />
-        {/* Shaft seam line */}
-        <line x1="50" y1="14" x2="50" y2="42"
-          stroke="rgba(0,0,0,0.06)" strokeWidth="0.5"
-        />
-
-        {/* ══════════ PUMP HEAD ══════════ */}
-        <rect x="23" y="5" width="54" height="15" rx="7" ry="7"
-          fill={`url(#${uid}-chrome-v)`}
-        />
-        {/* Pump head top specular band */}
-        <rect x="27" y="6" width="46" height="5" rx="4"
-          fill="white" opacity="0.30"
-        />
-        {/* Pump head under-edge shadow */}
-        <rect x="23" y="17" width="54" height="3"
-          fill="rgba(0,0,0,0.12)"
-        />
-        {/* Pump head left edge highlight */}
-        <rect x="23" y="5" width="4" height="15"
-          fill="white" opacity="0.16" rx="3"
-        />
-
-        {/* ══════════ NOZZLE ══════════ */}
-        {/* Nozzle arm */}
-        <rect x="68" y="3" width="24" height="10" rx="5" ry="5"
-          fill={`url(#${uid}-chrome-v)`}
-        />
-        {/* Nozzle top highlight */}
-        <rect x="68" y="3" width="24" height="4" rx="5"
-          fill="white" opacity="0.28"
-        />
-        {/* Nozzle bottom shadow */}
-        <rect x="68" y="10" width="24" height="3" rx="0"
-          fill="rgba(0,0,0,0.12)"
-        />
-        {/* Nozzle tip opening (dark hole) */}
-        <ellipse cx="93" cy="8" rx="2.5" ry="3.5"
-          fill="#1a2030"
-        />
-        {/* Nozzle tip rim */}
-        <ellipse cx="93" cy="8" rx="2.5" ry="3.5"
-          fill="none" stroke="#7a8896" strokeWidth="1"
-        />
-
-        {/* ══════════ BASE RIM ══════════ */}
-        <rect x="19" y="339" width="62" height="7" rx="3" ry="3"
-          fill="rgba(5,14,48,0.90)"
-        />
-        {/* Base top highlight */}
-        <rect x="19" y="339" width="62" height="2" rx="3"
-          fill="white" opacity="0.06"
-        />
       </svg>
     </div>
   );
