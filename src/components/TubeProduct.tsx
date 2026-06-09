@@ -16,14 +16,14 @@ const sizeMap = {
   xl:  { w: 230, h: 308 },
 };
 
-// Centers of each product in the 1400×933 group photo.
-// backgroundSize: 300% auto → scaled image = 3× container width.
-// Positions derived from: X = (CW/2 - TX·SW/IW) / (CW−SW) × 100
-// (consistent across all container sizes — verified numerically)
+// 500% zoom keeps each product isolated (no adjacent products in frame).
+// Centres derived from pixel-scan of the 1400×933 image:
+//   tube x=375, bottle x=686, jar x=1012
+// Formula: X = (CW/2 − TX·SW/IW) / (CW−SW) × 100  (verified across all sizes)
 const cropStyle: Record<1 | 2 | 3, React.CSSProperties> = {
-  1: { backgroundSize: "300% auto", backgroundPosition: "0% 50%"   }, // tube,   center x≈215
-  2: { backgroundSize: "300% auto", backgroundPosition: "45% 38%"  }, // bottle, center x≈650
-  3: { backgroundSize: "300% auto", backgroundPosition: "94% 100%" }, // jar,    center x≈1110
+  1: { backgroundSize: "500% auto", backgroundPosition: "21% 35%" },  // tube
+  2: { backgroundSize: "500% auto", backgroundPosition: "49% 47%" },  // bottle
+  3: { backgroundSize: "500% auto", backgroundPosition: "78% 74%" },  // jar
 };
 
 export function TubeProduct({
