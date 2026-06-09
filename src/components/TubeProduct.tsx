@@ -16,11 +16,14 @@ const sizeMap = {
   xl:  { w: 230, h: 308 },
 };
 
-// CSS background-image crop for each product in the 1400×933 group photo
+// Centers of each product in the 1400×933 group photo.
+// backgroundSize: 300% auto → scaled image = 3× container width.
+// Positions derived from: X = (CW/2 - TX·SW/IW) / (CW−SW) × 100
+// (consistent across all container sizes — verified numerically)
 const cropStyle: Record<1 | 2 | 3, React.CSSProperties> = {
-  1: { backgroundSize: "380% auto", backgroundPosition: "3.5% 35%" },
-  2: { backgroundSize: "320% auto", backgroundPosition: "46% 17%" },
-  3: { backgroundSize: "360% auto", backgroundPosition: "88% 100%" },
+  1: { backgroundSize: "300% auto", backgroundPosition: "0% 50%"   }, // tube,   center x≈215
+  2: { backgroundSize: "300% auto", backgroundPosition: "45% 38%"  }, // bottle, center x≈650
+  3: { backgroundSize: "300% auto", backgroundPosition: "94% 100%" }, // jar,    center x≈1110
 };
 
 export function TubeProduct({
@@ -55,7 +58,6 @@ export function TubeProduct({
         backgroundImage: `url(${productsImg})`,
         backgroundRepeat: "no-repeat",
         backgroundColor: "#FAF2DB",
-        backgroundBlendMode: "multiply",
         ...cropStyle[step],
       }}
     />
