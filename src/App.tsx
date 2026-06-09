@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ShoppingBag, ArrowRight, Check, Sparkles, Shield, Bookmark, Minimize2, Eye } from "lucide-react";
 import { CartItem } from "./types";
+import productsImg from "./assets/products.png";
 import { PromoBanner } from "./components/PromoBanner";
 import { TubeProduct } from "./components/TubeProduct";
 import { IntroExplainer } from "./components/IntroExplainer";
@@ -198,16 +199,15 @@ export default function App() {
             </div>
           </div>
 
-          {/* Right Column: Beautifully balanced still-life visual representations */}
+          {/* Right Column: actual product photo */}
           <div className="lg:col-span-6 flex justify-center items-center">
-            <div className="relative w-full max-w-lg bg-[#FFFDEC] border-4 border-[#334B89] rounded-[44px] p-8 md:p-12 flex flex-col justify-between overflow-hidden shadow-2xl group">
-              
-              {/* Seamless side-by-side array of the three bottles */}
-              <div className="flex justify-center items-end gap-5 py-8">
-                <TubeProduct step={1} label="cleanse" size="sm" interactive={true} className="transition-transform duration-300 hover:scale-110" />
-                <TubeProduct step={2} label="exfoliate" size="sm" interactive={true} className="transition-transform duration-300 hover:scale-110" />
-                <TubeProduct step={3} label="moisturise" size="sm" interactive={true} className="transition-transform duration-300 hover:scale-110" />
-              </div>
+            <div className="w-full max-w-lg overflow-hidden rounded-[36px] border-4 border-[#334B89] shadow-2xl">
+              <img
+                src={productsImg}
+                alt="three. skincare — one, two, three"
+                className="w-full h-auto block"
+                draggable={false}
+              />
             </div>
           </div>
 
@@ -228,15 +228,12 @@ export default function App() {
               SAVES 14% DAILY
             </div>
 
-            <div className="flex gap-4 sm:gap-6 justify-center items-end mt-14 mb-8 z-10">
-              <TubeProduct step={1} label="cleanse" size="sm" interactive={false} />
-              <TubeProduct step={2} label="exfoliate" size="md" interactive={false} />
-              <TubeProduct step={3} label="moisturise" size="sm" interactive={false} />
-            </div>
-
-            <div className="text-center font-mono text-[10px] tracking-widest uppercase text-[#334B89]/80 mt-6 font-black z-10">
-              Shipped in beautiful tactile matching embossed boxes
-            </div>
+            <img
+              src={productsImg}
+              alt="the three routine set"
+              className="w-full h-auto block z-10 relative"
+              draggable={false}
+            />
           </div>
 
           {/* Luxury set sales card */}
