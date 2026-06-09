@@ -9,24 +9,18 @@ interface TubeProductProps {
   interactive?: boolean;
 }
 
-/*
-  The product photo has three items left-to-right:
-    step 1 (tube)    → left ~18%
-    step 2 (bottle)  → centre 50%
-    step 3 (jar)     → right ~82%
-  We use object-fit:cover + object-position to crop to each product.
-*/
-const cropPosition: Record<1 | 2 | 3, string> = {
-  1: "18% center",
-  2: "50% center",
-  3: "82% center",
+const sizeMap = {
+  sm:  { w: 110, h: 150 },
+  md:  { w: 150, h: 200 },
+  lg:  { w: 190, h: 255 },
+  xl:  { w: 230, h: 308 },
 };
 
-const sizeMap = {
-  sm: { w: 110, h: 150 },
-  md: { w: 150, h: 200 },
-  lg: { w: 190, h: 255 },
-  xl: { w: 230, h: 308 },
+// CSS background-image crop for each product in the 1400×933 group photo
+const cropStyle: Record<1 | 2 | 3, React.CSSProperties> = {
+  1: { backgroundSize: "380% auto", backgroundPosition: "3.5% 35%" },
+  2: { backgroundSize: "320% auto", backgroundPosition: "46% 17%" },
+  3: { backgroundSize: "360% auto", backgroundPosition: "88% 100%" },
 };
 
 export function TubeProduct({
@@ -49,24 +43,21 @@ export function TubeProduct({
     <div
       id={`bottle-step-${step}`}
       onClick={handleClick}
-      className={`select-none overflow-hidden rounded-2xl ${
+      className={`select-none rounded-2xl ${
         interactive
           ? "hover:scale-[1.06] hover:-translate-y-2 transition-all duration-300 ease-out cursor-pointer"
           : ""
       } ${isWiggling ? "animate-physical-wiggle" : ""} ${className}`}
-      style={{ width: w, height: h, flexShrink: 0 }}
-    >
-      <img
-        src={productsImg}
-        alt={`Step ${step} product`}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          objectPosition: cropPosition[step],
-        }}
-        draggable={false}
-      />
-    </div>
+      style={{
+        width: w,
+        height: h,
+        flexShrink: 0,
+        backgroundImage: `url(${productsImg})`,
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "#FAF2DB",
+        backgroundBlendMode: "multiply",
+        ...cropStyle[step],
+      }}
+    />
   );
 }
